@@ -1,33 +1,80 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
+import User from './User';
 import './App.css'
 
+const API_URL = "https://jsonplaceholder.typicode.com/users";
+const RESULTS_PER_PAGE = 5;
+
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [userList, setUserList] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+  const [pageNumber, setPageNumber] = useState(0);
+
+  const fetchUsers = async () => {
+    const response = await fetch(API_URL);
+    const users = await response.json();
+
+    const usersArray = [...users]
+    const filteredUsers = usersArray.slice(0, RESULTS_PER_PAGE);
+
+    setUserList(usersArray);
+    setFilteredUsers(filteredUsers);
+  }
+
+  useEffect(() => {
+    fetchUsers();
+  },[])
+
+  const handleSearch = (e) => {
+    const searchTerm = e.target.value;
+    setSearchValue(searchTerm);
+
+    if (searchValue === "") {
+      setFilteredUsers(userList);
+    } else {
+      const filteredUsers = userList.filter(user => user.name.toLowerCase().includes(searchTerm.toLowerCase()));
+      setFilteredUsers(filteredUsers);
+    }
+  }
+
+  useEffect(() => {
+    const startIndex = pageNumber * RESULTS_PER_PAGE;
+    const endIndex = startIndex + RESULTS_PER_PAGE;
+
+    const paginatedUsers = userList.slice(startIndex, endIndex);
+
+    const filtered = searchValue 
+      ? paginatedUsers.filter(user => user.name.toLowerCase().includes(searchValue.toLowerCase()))
+      : paginatedUsers;
+
+    setFilteredUsers(filtered);
+  },[pageNumber, searchValue, userList])
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <input
+      placeholder='Search Name'
+      value={searchValue}
+      onChange={handleSearch}
+    >
+    </input>
+
+    {filteredUsers.map((user) => 
+        <User key={user.id} {...user}/>
+      )
+    }
+
+    <button
+      onClick={()=>setPageNumber(pageNumber - 1)}
+      disabled={pageNumber===0}
+    >Previous</button>
+    <span>{pageNumber + 1}</span>
+    <button
+      onClick={()=>setPageNumber(pageNumber + 1)}
+      disabled={userList.length <= RESULTS_PER_PAGE * (pageNumber + 1)}
+    >Next</button>
     </>
   )
 }
