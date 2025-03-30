@@ -3,11 +3,13 @@ import './App.css'
 import Task from './Task';
 
 const API_URL = "http://localhost:3000/tasks";
+const PAGE_RESULT = 5
 
 function App() {
 
   const [taskList, setTaskList] = useState([]);
   const [newTask, setNewTask] = useState("");
+  const [pageNumber, setPageNumber] = useState(0);
 
   const fetchTasks = async () => {
     const response = await fetch(API_URL, {
@@ -39,6 +41,12 @@ function App() {
     });
 
     await fetchTasks();
+    setNewTask("");
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    addTask();
   }
 
   const handleDelete = async (taskId) => {
@@ -66,6 +74,8 @@ function App() {
     await fetchTasks();
   }
 
+  const pageTasks = taskList.slice(pageNumber * PAGE_RESULT, (pageNumber + 1) * PAGE_RESULT);
+
   useEffect(() => {
     fetchTasks();
   }, []);
@@ -73,17 +83,34 @@ function App() {
   return (
     <>
       <h1>Task Manager</h1>
-      <input
-        value={newTask}
-        onChange={(e)=>setNewTask(e.target.value)}
-      ></input>
-      <button
-        onClick={()=>addTask()}
-      >Add Task</button>
+      <form
+        onSubmit={handleSubmit}
+      >
+        <input
+          value={newTask}
+          onChange={(e)=>setNewTask(e.target.value)}
+        ></input>
+        <button
+          type="submit"
+        >Add Task</button>
+      </form>
 
-      {taskList.map(task =>
+      {pageTasks.map(task =>
         <Task key={task.id} {...task} handleDelete={handleDelete} handleUpdate={handleUpdate}/>
       )}
+
+      <div style={{display: "flex"}}>
+        <button
+          onClick={()=>setPageNumber(pageNumber-1)}
+          disabled={pageNumber === 0}
+        >Prev</button>
+        <div
+        >{pageNumber+1}</div>
+        <button
+          onClick={()=>setPageNumber(pageNumber+1)}
+          disabled={taskList.length <= (pageNumber+1) * PAGE_RESULT}
+        >Next</button>
+      </div>
     </>
   )
 }
