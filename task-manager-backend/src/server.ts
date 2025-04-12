@@ -9,18 +9,18 @@ const app = express();
 // load environmental variables
 dotenv.config();
 const PORT = process.env.PORT || 3000;
-// const FRONTEND_URL = process.env.FRONTEND_URL;
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 // middleware
 app.use(cookieParser());
 app.use(express.json());
 // TODO: reinstate cors
-// app.use(cors(
-//     {
-//         origin: FRONTEND_URL,
-//         credentials: true,
-//     }
-// ));
+app.use(cors(
+    {
+        origin: FRONTEND_URL,
+        credentials: true,
+    }
+));
 
 // auth routes
 app.post("/register", userController.registerUser);
