@@ -1,26 +1,73 @@
+/*
+Approach
+- initialize a map of card positions, using cardId as key and position as value 
+- fill initial card positions in the map
+- deconstruct and assign card positions into the map 
+- then process moves 
+- if need to chec
+
+Time complexity: 
+*/
+
+// FOR MULTIPLE MOVES
 function findCardPosition(cards, moves, cardId) {
 
     // Initialize a map of card positions usding cardId as key
     let cardPositions = {};
 
-    // Fill initial card positions
-    cards.forEach(card => {
+    // assign initial card positions
+    for (let card of cards) {
         let [colx, coly, cardId] = card;
         cardPositions[cardId] = [colx, coly];
-    })
+    }
 
-    // Process moves
-    moves.forEach(move => {
+    // process moves
+    for (let move of moves) {
         let [prevX, prevY, newX, newY, movingCardId] = move;
 
-        // If the cardId matches, update the position
-        if (movingCardId === cardId) {
-            cardPositions[cardId] = [newX, newY];
+        // Check if another card is already occupying the new position
+        for (let id in cardPositions) {
+            let [x, y] = cardPositions[id];
+            if (x === newX && y === newY) {
+                console.log(`The position (${newX}, ${newY}) is already occupied.`);
+                // Return the current position of the card if position is occupied
+                return cardPositions[cardId];  
+            }
         }
-    });
+
+        cardPositions[cardId] = [newX, newY];
+
+    }
+    return cardPositions[cardId];
+}
+
+// FOR ONE MOVE
+function findCardPosition(cards, move, cardId) {
+    // Initialize a map of card positions using cardId as key
+    let cardPositions = {};
+
+    // assign initial card positions
+    for (let card of cards) {
+        let [colx, coly, cardId] = card;
+        cardPositions[cardId] = [colx, coly];
+    }
+
+    // destructure the move: [prevX, prevY, newX, newY, movingCardId]
+    let [prevX, prevY, newX, newY, movingCardId] = move;
+
+    // Check if another card is already occupying the new position
+    for (let id in cardPositions) {
+        let [x, y] = cardPositions[id];
+        if (x === newX && y === newY) {
+            console.log(`The position (${newX}, ${newY}) is already occupied.`);
+            // Return the current position of the card if position is occupied
+            return cardPositions[cardId];  
+        }
+    }
+
+    cardPositions[cardId] = [newX, newY];
 
     return cardPositions[cardId];
-
 }
 
 // Sample test cases
