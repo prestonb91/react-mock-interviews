@@ -1,35 +1,62 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function Tabs() {
+  const [activeTab, setActiveTab] = useState("HTML");
 
   return (
-    <>
+    <div>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <button
+          onClick={() => setActiveTab("HTML")}
+          style={{
+            backgroundColor: activeTab === "HTML" ? "purple" : "gray",
+            color: activeTab === "HTML" ? "white" : "black",
+            border: "none",
+          }}
+        >
+          HTML
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+        <button
+          onClick={() => setActiveTab("CSS")}
+          style={{
+            backgroundColor: activeTab === "CSS" ? "purple" : "gray",
+            color: activeTab === "CSS" ? "white" : "black",
+            border: "none",
+          }}
+        >
+          CSS
+        </button>
+        <button 
+          onClick={() => setActiveTab("JavaScript")}
+          style={{
+            backgroundColor: activeTab === "JavaScript" ? "purple" : "gray",
+            color: activeTab === "JavaScript" ? "white" : "black",
+            border: "none",
+          }}  
+        >JavaScript</button>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <div>
+        {activeTab === "HTML" && (
+          <p>
+            The HyperText Markup Language or HTML is the standard markup
+            language for documents designed to be displayed in a web browser.
+          </p>
+        )}
+        {activeTab === "CSS" && (
+          <p>
+            Cascading Style Sheets is a style sheet language used for describing
+            the presentation of a document written in a markup language such as
+            HTML or XML.
+          </p>
+        )}
+        {activeTab === "JavaScript" && (
+          <p>
+            JavaScript, often abbreviated as JS, is a programming language that
+            is one of the core technologies of the World Wide Web, alongside
+            HTML and CSS.
+          </p>
+        )}
+      </div>
+    </div>
+  );
 }
-
-export default App
