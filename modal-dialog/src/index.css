@@ -1,0 +1,32 @@
+body {
+  font-family: sans-serif;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  width: 30rem;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background-color: white;
+}
+
+.overlay {
+  display: flex;             
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  top:0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-button {
+  width: 50%;
+}
