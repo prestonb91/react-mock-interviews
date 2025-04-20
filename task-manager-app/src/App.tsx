@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import './App.css'
-import Task from './Task';
+import Task from './components/Task';
+import React from 'react';
 
 const API_URL = "http://localhost:3000/tasks";
 const PAGE_RESULT = 5

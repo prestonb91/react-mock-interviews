@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import MovieList from './components/MovieList'
-import './App.css'
 
 const API_URL = "http://localhost:3000/movies";
 

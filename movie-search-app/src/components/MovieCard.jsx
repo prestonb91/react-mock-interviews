@@ -1,9 +1,8 @@
 
-function MovieCard({id, title, genre, releaseYear, rating}) {
+function MovieCard({title, genre, releaseYear, rating}) {
     
     return(
-        <div>
-            <div>{id}</div>
+        <div className="movie-card-container">
             <div>{title}</div>
             <div>{genre}</div>
             <div>{releaseYear}</div>

@@ -61,18 +61,22 @@ function MovieList({movies, fetchingData}) {
                 value={searchValue}
                 onChange={handleSearchFilter}
             ></input>
-            <div>{searchValue}</div>
 
             <label>Genre Filter</label>
             <select
                 value={selectedGenre}
                 onChange={handleGenreFilter}
             >
-                {genres.map(genre =>
-                    <option>{genre}</option>
+                {genres.map((genre, index) =>
+                    <option
+                        key={index}
+                    >{genre}</option>
                 )}
             </select>
 
+            <div
+                className="movie-list-container"
+            >
             {fetchingData 
             ?
                 <div>Loading data...</div>
@@ -81,6 +85,7 @@ function MovieList({movies, fetchingData}) {
                     <MovieCard key={movie.id} {...movie}/>
                 )
             }
+            </div>
         </div>
     )
 

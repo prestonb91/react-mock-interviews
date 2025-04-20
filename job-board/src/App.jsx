@@ -75,7 +75,7 @@ export default function App() {
       ) : (
         <div>
           {jobDetails.map((job) => (
-            <JobPosting {...job} />
+            <JobPosting key={job.id} {...job} />
           ))}
           {jobLengthCheck && 
           <button
