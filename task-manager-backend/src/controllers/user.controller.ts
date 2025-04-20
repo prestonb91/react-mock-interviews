@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken"
 import userModel from "../models/user.model"
 
 // TODO: update type declarations
-
 const registerUser = async (req: Request, res: Response): Promise<any> => {
     try {
         console.log("register endpoint");
